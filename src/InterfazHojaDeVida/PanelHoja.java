@@ -18,6 +18,7 @@ import hojadevida.Persona;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Date;
 import javax.swing.JFileChooser;
 
 /**
@@ -174,8 +175,8 @@ public class PanelHoja extends JPanel{
                     else{
                         genero = EnumGenero.Femenino;
                     }
-                    Persona persona = new Persona(jlFoto, txtNombre.getText().trim(), Double.parseDouble(txtCedula.getText().trim()), 
-                          txtCorreo.getText().trim(), (EnumProfesion)jBoxProfesion.getSelectedItem(), genero);
+                    Persona persona = new Persona(txtNombre.getText().trim(), Double.parseDouble(txtCedula.getText().trim()), 
+                          txtCorreo.getText().trim(), (EnumProfesion)jBoxProfesion.getSelectedItem(), genero, new Date());
                 }
             }
         }

@@ -1,7 +1,9 @@
 
 package hojadevida;
 
+import java.util.Date;
 import javax.swing.JLabel;
+import hojadevida.Utilitaria;
 
 /**
  *
@@ -20,6 +22,8 @@ public class Persona {
     private EnumProfesion profesion;    //  Atributo Enum de Profesion
     
     private EnumGenero genero;  //  Genero masculino o femenino
+    
+    private Date fechaNacimiento;
 
     /**
      * Constructor
@@ -30,15 +34,28 @@ public class Persona {
      * @param profesion
      * @param genero 
      */
-    public Persona(JLabel foto, String nombre, double cedula, String correo, EnumProfesion profesion, EnumGenero genero) {
+    public Persona(String nombre, double cedula, String correo, EnumProfesion profesion, EnumGenero genero, Date fechaNacimiento) {
         this.foto = foto;
         this.nombre = nombre;
         this.cedula = cedula;
         this.correo = correo;
         this.profesion = profesion;
         this.genero = genero;
+        this.fechaNacimiento = fechaNacimiento;
     }
 
+    @Override
+    public String toString(){
+        String datos = "";
+        datos += nombre+";";
+        datos += String.valueOf(cedula)+";";
+        datos += correo+";";
+        datos += profesion+";";
+        datos += genero+";";
+        datos += Utilitaria.fechaDate(fechaNacimiento)+";*\n";
+        return datos;
+    }
+    
     /**
      * Obtener la foto
      * @return JLabel
