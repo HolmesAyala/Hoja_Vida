@@ -1,6 +1,7 @@
 
 package InterfazHojaDeVida;
 
+import com.toedter.calendar.JCalendar;
 import hojadevida.EnumGenero;
 import hojadevida.EnumProfesion;
 import hojadevida.Utilitaria;
@@ -19,6 +20,9 @@ import java.util.logging.Logger;
 public class EjecutarInterfaz {
 
     public EjecutarInterfaz() {
+        
+        VentanaPrincipal ventana = new VentanaPrincipal();
+        
         //VentanaPrincipal venta = new VentanaPrincipal();
         /*
         Utilitaria.Escribir("Hola\nModifique su texto", "Documento/Datos.txt");
@@ -39,6 +43,7 @@ public class EjecutarInterfaz {
         */
         
         //  Leer Personas
+        /*
         List<Persona> personas = new ArrayList<Persona>();
         
         String texto = "";
@@ -71,7 +76,7 @@ public class EjecutarInterfaz {
         for(int i = 0; i < personas.size(); i++){
             System.out.print(personas.get(i).toString());
         }
-        
+        */
     }
     
     public static void main(String[] arg){

@@ -1,0 +1,25 @@
+------------------------------------
+Programa de gestion de Hojas de vida
+------------------------------------
+
+La ventana principal incluye
+elementos para el ingreso de datos
+los elementos son:
+
+1) Nombre
+2) Cedula
+3) Correo
+4) Profesion
+5) Genero
+7) Fecha de nacimiento
+
+Validaciones
+
+1) El campo del correo valida que su
+   correo tenga el formato estandar:
+	nombre@dominio.com
+	nombre@dominio.com.co
+
+2) El campo de la cedula verifica si
+   ya esta registrada y que solo
+   contenga numeros

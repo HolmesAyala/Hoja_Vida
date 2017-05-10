@@ -77,7 +77,7 @@ public class Utilitaria {
         
         try
         {
-            fichero = new FileWriter(direccion,false);
+            fichero = new FileWriter(direccion,true);
             pw = new PrintWriter(fichero);
 
             for (int i = 0; i < texto.length(); i++){
@@ -106,11 +106,16 @@ public class Utilitaria {
         }
     }
     
+    /**
+     * Convertir de fechaString a Date
+     * @param fechaString
+     * @return 
+     */
     public static Date fechaString(String fechaString){
         
         Date fecha = null;
     
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy-hh:mm:ss");
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         
         try{
             fecha = formato.parse(fechaString);
@@ -121,9 +126,14 @@ public class Utilitaria {
         }
     }
     
+    /**
+     * Convertir de Date a String
+     * @param fecha
+     * @return 
+     */
     public static String fechaDate(Date fecha){
         
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy-hh:mm:ss");
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         
         String fechaString = formato.format(fecha);
         

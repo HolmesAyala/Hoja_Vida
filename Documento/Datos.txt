@@ -1,4 +1,7 @@
-Holmes;1.031173405E9;holmes@gmail.com;Profesor;Masculino;05/05/2017-12:01:11;*
-Anggy;1.073525066E9;anggy@gmail.com;Veterinario;Femenino;05/05/2017-12:01:11;*
-Pepito;1.073525066E9;pepito@gmail.com;Veterinario;Masculino;31/05/2017-12:01:11;*
-Pepita;1.073525066E9;pepita@gmail.com;Veterinario;Femenino;30/05/2017-12:01:11;*
+Holmes;1.031173405E9;holmes@gmail.com;Profesor;Masculino;05/01/1998;*
+Anggy;1.073525066E9;anggy@gmail.com;Veterinario;Femenino;09/05/2017;*
+Leidy Tatiana Ramos Ayala;1.23456789E8;leidy_5@hotmail.com;Fisico;Femenino;07/02/2005;*
+Martha Ayala;9.87456123E8;martica@gmail.com;Medico;Femenino;10/05/1978;*
+Martin Ramos;9.87654321E8;Martin@hotmail.com;Ingeniero;Masculino;10/03/1970;*
+qwer;1234.0;wer@g.com;Abogado;Masculino;01/05/2017;*
+Oñaaa;123456.0;onia@microsoft.com.co;Ingeniero;Masculino;01/05/2009;*

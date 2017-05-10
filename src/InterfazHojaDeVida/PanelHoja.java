@@ -1,6 +1,7 @@
 
 package InterfazHojaDeVida;
 
+import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.ButtonGroup;
@@ -15,62 +16,88 @@ import javax.swing.JTextField;
 import hojadevida.EnumProfesion;
 import hojadevida.EnumGenero;
 import hojadevida.Persona;
+import hojadevida.Utilitaria;
+import hojadevida.ValidarCorreo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
- *
+ *  Clase PanelHoja
  * @author Anggy Arguello - Holmes Ayala
  */
 public class PanelHoja extends JPanel{
     
-    private JLabel jlFoto;
+    private JLabel jlFoto;  //  Etiqueta para foto
             
-    private JLabel jlNombre;
+    private JLabel jlNombre;    //  Etiqueta para nombre
     
-    private JLabel jlCedula;
+    private JLabel jlCedula;    //  Etiqueta para cedula
     
-    private JLabel jlCorreo;
+    private JLabel jlCorreo;    //  Etiqueta para correo
     
-    private JLabel jlProfesion;
+    private JLabel jlProfesion; //  Etiqueta para profesion
     
-    private JLabel jlGenero;
+    private JLabel jlGenero;    //  Etiqueta para genero
     
-    private JButton btnFoto;
+    private JLabel jlNacimiento;    //  Etiqueta para nacimiento
     
-    private JTextField  txtNombre;
+    private JButton btnFoto;    //  Boton para buscar foto
     
-    private JTextField  txtCedula;
+    private JTextField  txtNombre;  //  Caja texto para el nombre
     
-    private JTextField  txtCorreo;
+    private JTextField  txtCedula;  //  Caja texto para la cedula
     
-    private JComboBox   jBoxProfesion;
+    private JTextField  txtCorreo;  //  Caja texto para el correo
     
-    private JRadioButton rbMasculino;
+    private JComboBox   jBoxProfesion;  //  Seleccion de la profesion
     
-    private JRadioButton rbFemenino;
+    private JRadioButton rbMasculino;   //  boton de radio para masculino
     
-    private ButtonGroup grupoGenero;
+    private JRadioButton rbFemenino;    //  boton de radio para femenino
     
-    private JButton btnAceptar;
+    private ButtonGroup grupoGenero;    //  Gestion de botones de genero
     
-    private VentanaPrincipal ventanaPrincipal;
+    private JButton btnAceptar; //  Boton de aceptar hoja de vida
+    
+    private JDateChooser calendario;    // Calendario para agregar nacimiento
+    
+    private VentanaPrincipal ventanaPrincipal;  //  Objeto de la ventana principal
+    
+    private List<Persona> personas; //  Lista de personas/hojas de vida
 
+    /**
+     * Constructor
+     * @param ventanaPrincipal 
+     */
     public PanelHoja(VentanaPrincipal ventanaPrincipal) {
         this.ventanaPrincipal = ventanaPrincipal;
         configurarPanel();
         agregarElementos();
     }
     
+    /**
+     * Configurar el panel
+     */
     public void configurarPanel(){
         setLayout(null);
         setBackground(Color.WHITE);
     }
     
+    /**
+     * Agregar a el panel los elementos
+     */
     public void agregarElementos(){
+        
+        obtenerPersonas();
         
          Font fuente = new Font("Calibri", Font.PLAIN, 30);
         
@@ -151,13 +178,72 @@ public class PanelHoja extends JPanel{
         
         btnAceptar = new JButton("Aceptar");
         btnAceptar.addActionListener(new EscucharBoton());
-        btnAceptar.setBounds(400 - (largo-30)/2, puntoY+alto*6, largo-30, alto-10);
+        btnAceptar.setBounds(400 - (largo-30)/2, puntoY+alto*6+20, largo-30, alto-10);
         btnAceptar.setFont(fuente);
         add(btnAceptar);
+        
+        jlNacimiento =  new JLabel("Fecha nacimiento:");
+        jlNacimiento.setBounds(puntoX, puntoY + alto*5, largo+largo, alto);
+        jlNacimiento.setFont(fuente);
+        add(jlNacimiento);
+        
+        Font fuenteCal = new Font("Calibri", Font.PLAIN, 20);
+        calendario = new JDateChooser("dd/MM/yyyy", "##/##/####", '-');
+        Calendar auxiliar = new GregorianCalendar(1970, Calendar.JANUARY, 1);
+        calendario.setMinSelectableDate(auxiliar.getTime());
+        calendario.setFont(fuenteCal);
+         
+        calendario.setBounds(400 - (largo-30)/2, puntoY+alto*5+20, largo-30, alto-20);
+        add(calendario);
     }
     
+    /**
+     * Buscar documento con las hojas de vida ya registradas
+     */
+    public void obtenerPersonas(){
+        personas = new ArrayList<Persona>();
+        
+        String texto = "";
+        try {
+            texto = Utilitaria.leer("Documento/Datos.txt");
+        } catch (IOException error) {
+            error.getMessage();
+        }
+        //System.out.println(texto);
+        int contador = 0;
+        for(int i = 0; i < texto.length(); i++){
+            if(texto.charAt(i) == '*'){
+                String linea = texto.substring(contador, i);
+                String vector[] = linea.split(";");
+                
+                Persona persona = new Persona(vector[0], 
+                                              Double.parseDouble(vector[1]), 
+                                              vector[2], 
+                                              EnumProfesion.valueOf(vector[3]), 
+                                              EnumGenero.valueOf(vector[4]), 
+                                              Utilitaria.fechaString(vector[5]));
+                
+                personas.add(persona);
+                
+                //System.out.println(persona.toString());
+                contador = i + 2;
+            }
+        }
+        
+        for(int i = 0; i < personas.size(); i++){
+            System.out.print(personas.get(i).toString());
+        }
+    }
+    
+    /**
+     * Escuchar boton de aceptar
+     */
     class EscucharBoton implements ActionListener{
 
+        /**
+         * Metodo de escucha
+         * @param evento 
+         */
         @Override
         public void actionPerformed(ActionEvent evento) {
             if(evento.getActionCommand().equals("Agregar Foto")){
@@ -176,17 +262,34 @@ public class PanelHoja extends JPanel{
                         genero = EnumGenero.Femenino;
                     }
                     Persona persona = new Persona(txtNombre.getText().trim(), Double.parseDouble(txtCedula.getText().trim()), 
-                          txtCorreo.getText().trim(), (EnumProfesion)jBoxProfesion.getSelectedItem(), genero, new Date());
+                          txtCorreo.getText().trim(), (EnumProfesion)jBoxProfesion.getSelectedItem(), genero, calendario.getDate());
+                    Utilitaria.Escribir(persona.toString(), "Documento/Datos.txt");
+                    ventanaPrincipal.getDialogoTabla().agregarUnaPersona(persona);
+                    //System.out.println(persona.toString());
+                    //  Vaciar Todo
+                    txtNombre.setText("");
+                    txtCedula.setText("");
+                    txtCorreo.setText("");
+                    jBoxProfesion.setSelectedIndex(0);
+                    rbMasculino.setSelected(false);
+                    rbFemenino.setSelected(false);
+                    calendario.setDate(null);
+                    JOptionPane.showMessageDialog(null, "Su hoja de vida ha sido agregada", "Correcto", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         }
 
-        boolean validarDatos(){
+        /**
+         * Validar que los datos sean validos
+         * @return 
+         */
+        public boolean validarDatos(){
             jlNombre.setForeground(Color.BLACK);
             jlCedula.setForeground(Color.BLACK);
             jlCorreo.setForeground(Color.BLACK);
             jlProfesion.setForeground(Color.BLACK);
             jlGenero.setForeground(Color.BLACK);
+            jlNacimiento.setForeground(Color.BLACK);
             boolean validar = true;
             if(txtNombre.getText().trim().equals("")){
                 validar = false;
@@ -196,9 +299,32 @@ public class PanelHoja extends JPanel{
                 validar = false;
                 jlCedula.setForeground(Color.red);
             }
+            else{
+                try{
+                    double prueba = Double.parseDouble(txtCedula.getText().trim());
+                    for(int i = 0; i < personas.size(); i++){
+                        if(personas.get(i).getCedula() == Double.parseDouble(txtCedula.getText().trim())){
+                            validar = false;
+                            JOptionPane.showMessageDialog(null, "Una persona ya se ha registrado con ese documento.", "Error Registro", JOptionPane.WARNING_MESSAGE);
+                            break;
+                        }
+                    }
+                }catch(NumberFormatException error){
+                    validar = false;
+                    jlCedula.setForeground(Color.red);
+                }
+            }
             if(txtCorreo.getText().trim().equals("")){
                 validar = false;
                 jlCorreo.setForeground(Color.red);
+            }
+            else{
+                String auxiliar = ValidarCorreo.validar(txtCorreo.getText().trim());
+                if(!auxiliar.equals("correcto")){
+                    validar = false;
+                    jlCorreo.setForeground(Color.red);
+                    JOptionPane.showMessageDialog(null, ""+auxiliar, "Error Correo", JOptionPane.WARNING_MESSAGE);
+                }
             }
             if(jBoxProfesion.getSelectedItem().equals(EnumProfesion.Seleccione)){
                 validar = false;
@@ -208,9 +334,30 @@ public class PanelHoja extends JPanel{
                 validar = false;
                 jlGenero.setForeground(Color.red);
             }
+            if(calendario.getDate() == null){
+                validar = false;
+                jlNacimiento.setForeground(Color.red);
+            }
             return validar;
         }
 
     }
+
+    /**
+     * Obtener lista de perosonas
+     * @return 
+     */
+    public List<Persona> getPersonas() {
+        return personas;
+    }
+
+    /**
+     * Cambiar lista de personas
+     * @param personas 
+     */
+    public void setPersonas(List<Persona> personas) {
+        this.personas = personas;
+    }
+    
 }
 

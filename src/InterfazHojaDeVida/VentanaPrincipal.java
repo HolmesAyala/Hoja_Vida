@@ -30,10 +30,19 @@ public class VentanaPrincipal extends JFrame{
     
     private DialogoTabla dialogoTabla;
     
+    private DialogoAyuda dialogoAyuda;
+    
+    /**
+     * Constructor
+     */
     public VentanaPrincipal() {
+        dialogoAyuda = new DialogoAyuda();
         configurarVentana();
     }
     
+    /**
+     * Configura la ventana principal
+     */
     public void configurarVentana(){
         setTitle("Gestion de hojas de vida");
         setSize(800, 800);
@@ -48,16 +57,22 @@ public class VentanaPrincipal extends JFrame{
         
     }
     
+    /**
+     * Agrega los elementos a la ventana
+     */
     public void agregarElementos(){
         
         agregarBarraMenu();
         
         panelHoja = new PanelHoja(this);
+        dialogoTabla = new DialogoTabla(this);
         add(panelHoja);
     }
     
+    /**
+     * Agregar la barra de menu
+     */
     public void agregarBarraMenu(){
-        dialogoTabla = new DialogoTabla();
         
         Font fuente = new Font("Calibri", Font.PLAIN, 25);
         //  Item para el dialogo de la tabla
@@ -85,8 +100,14 @@ public class VentanaPrincipal extends JFrame{
         add(barraMenu, BorderLayout.NORTH);
     }
     
+    /**
+     * Clase que escucha la barra de menu
+     */
     class EscucharMenu implements ActionListener{
-
+        /**
+         * Metodo de escucha
+         * @param evento 
+         */
         @Override
         public void actionPerformed(ActionEvent evento) {
             if(evento.getActionCommand().equals("Tabla")){
@@ -94,6 +115,7 @@ public class VentanaPrincipal extends JFrame{
                 System.out.println("Quiere ver la tabla");
             }
             if(evento.getActionCommand().equals("Ayuda")){
+                dialogoAyuda.setVisible(true);
                 System.out.println("Quiere ver la ayuda");
             }
             if(evento.getActionCommand().equals("Salir")){
@@ -101,4 +123,37 @@ public class VentanaPrincipal extends JFrame{
             }
         }
     }
+
+    /**
+     * Obtener el panel de la hoja
+     * @return 
+     */
+    public PanelHoja getPanelHoja() {
+        return panelHoja;
+    }
+
+    /**
+     * Cambiar el panel de la hoja
+     * @param panelHoja 
+     */
+    public void setPanelHoja(PanelHoja panelHoja) {
+        this.panelHoja = panelHoja;
+    }
+
+    /**
+     * Obtener el dialogo de la tabla
+     * @return 
+     */
+    public DialogoTabla getDialogoTabla() {
+        return dialogoTabla;
+    }
+
+    /**
+     * Cambiar el dialogo de la tabla
+     * @param dialogoTabla 
+     */
+    public void setDialogoTabla(DialogoTabla dialogoTabla) {
+        this.dialogoTabla = dialogoTabla;
+    }
+    
 }

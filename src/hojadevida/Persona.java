@@ -23,7 +23,7 @@ public class Persona {
     
     private EnumGenero genero;  //  Genero masculino o femenino
     
-    private Date fechaNacimiento;
+    private Date fechaNacimiento;   //  Fecha de nacimiento
 
     /**
      * Constructor
@@ -44,8 +44,13 @@ public class Persona {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    /**
+     * Obtener un string con los datos de la hoja de vida
+     * @return 
+     */
     @Override
     public String toString(){
+        System.out.println("Cedula: "+cedula);
         String datos = "";
         datos += nombre+";";
         datos += String.valueOf(cedula)+";";
@@ -151,5 +156,20 @@ public class Persona {
     public void setGenero(EnumGenero genero) {
         this.genero = genero;
     }
-    
+
+    /**
+     * Obtener la fecha de nacimiento
+     * @return 
+     */
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    /**
+     * Cambiar la fecha de nacimiento
+     * @param fechaNacimiento 
+     */
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
 }

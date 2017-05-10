@@ -12,6 +12,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import hojadevida.EnumProfesion;
 import hojadevida.EnumGenero;
+import hojadevida.Utilitaria;
+import hojadevida.Persona;
+import java.util.Date;
 
 /**
  *
@@ -22,11 +25,14 @@ public class DialogoTabla extends JDialog{
     private JTable tablaCorreo; //  Tabla de Hojas de vida
     
     private DefaultTableModel modelo;   //  Modelo para la tabla
+    
+    private VentanaPrincipal ventanaPrincipal;
 
     /**
      * Constructor de la clase DialogoTabla
      */
-    public DialogoTabla() {
+    public DialogoTabla(VentanaPrincipal ventanaPrincipal) {
+        this.ventanaPrincipal = ventanaPrincipal;
         configurarDialogo();
     }
     
@@ -53,11 +59,13 @@ public class DialogoTabla extends JDialog{
         
         modelo = new DefaultTableModel();
         
-        modelo.addColumn("Imagen");
+        //modelo.addColumn("Imagen");
         
         modelo.addColumn("Nombre");
         
         modelo.addColumn("Cedula");
+        
+        modelo.addColumn("Edad");
         
         modelo.addColumn("Correo");
         
@@ -77,8 +85,51 @@ public class DialogoTabla extends JDialog{
         
         scrollTablaCorreo.setBounds(20, 20, 960, 640);
         add(scrollTablaCorreo);
+        
+        agregarPersonas();
     }
 
+    /**
+     * Agregar las hojas de vida que esten en el archivo
+     */
+    public void agregarPersonas(){
+        for(int i = 0; i < ventanaPrincipal.getPanelHoja().getPersonas().size(); i++){
+            //  Calcular Años
+            Date nacimiento = ventanaPrincipal.getPanelHoja().getPersonas().get(i).getFechaNacimiento();
+            Date hoy = new Date();
+            long años = hoy.getTime() - nacimiento.getTime();
+            años = años/1000/60/60/24/365;
+            //  Agregar una hoja de vida a la tabla
+            Object persona[] = {ventanaPrincipal.getPanelHoja().getPersonas().get(i).getNombre(), 
+                                            ventanaPrincipal.getPanelHoja().getPersonas().get(i).getCedula(),
+                                            años,
+                                            ventanaPrincipal.getPanelHoja().getPersonas().get(i).getCorreo(), 
+                                            ventanaPrincipal.getPanelHoja().getPersonas().get(i).getProfesion(), 
+                                            ventanaPrincipal.getPanelHoja().getPersonas().get(i).getGenero()};
+            modelo.addRow(persona);
+        }
+    }
+    
+    /**
+     * Agregar una hoja de vida a la tabla
+     * @param hojaNueva 
+     */
+    public void agregarUnaPersona(Persona hojaNueva){
+        //  Calcular Años
+            Date nacimiento = hojaNueva.getFechaNacimiento();
+            Date hoy = new Date();
+            long años = hoy.getTime() - nacimiento.getTime();
+            años = años/1000/60/60/24/365;
+            //  Agregar una hoja de vida a la tabla
+            Object persona[] = {hojaNueva.getNombre(), 
+                                            hojaNueva.getCedula(),
+                                            años,
+                                            hojaNueva.getCorreo(), 
+                                            hojaNueva.getProfesion(), 
+                                            hojaNueva.getGenero()};
+            modelo.addRow(persona);
+    }
+    
     /**
      * Obtener el modelo de la tabla
      * @return 
