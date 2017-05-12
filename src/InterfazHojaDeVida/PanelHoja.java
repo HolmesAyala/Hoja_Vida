@@ -189,8 +189,10 @@ public class PanelHoja extends JPanel{
         
         Font fuenteCal = new Font("Calibri", Font.PLAIN, 20);
         calendario = new JDateChooser("dd/MM/yyyy", "##/##/####", '-');
-        Calendar auxiliar = new GregorianCalendar(1970, Calendar.JANUARY, 1);
-        calendario.setMinSelectableDate(auxiliar.getTime());
+        Calendar auxiliarMinimo = new GregorianCalendar(1970, Calendar.JANUARY, 1);
+        Calendar auxiliarMaximo = new GregorianCalendar(2017, Calendar.MAY, 1);
+        calendario.setMinSelectableDate(auxiliarMinimo.getTime());
+        calendario.setMaxSelectableDate(auxiliarMaximo.getTime());
         calendario.setFont(fuenteCal);
          
         calendario.setBounds(400 - (largo-30)/2, puntoY+alto*5+20, largo-30, alto-20);
@@ -291,7 +293,7 @@ public class PanelHoja extends JPanel{
             jlGenero.setForeground(Color.BLACK);
             jlNacimiento.setForeground(Color.BLACK);
             boolean validar = true;
-            if(txtNombre.getText().trim().equals("")){
+            if(txtNombre.getText().trim().equals("") || !sinSeparador(txtNombre.getText().trim()) || txtNombre.getText().trim().length() < 3){
                 validar = false;
                 jlNombre.setForeground(Color.red);
             }
@@ -343,6 +345,20 @@ public class PanelHoja extends JPanel{
 
     }
 
+    /**
+     * Metodo que valida que no contenga el punto y coma
+     * @param texto
+     * @return 
+     */
+    public boolean sinSeparador(String texto){
+        for(int i = 0; i < texto.length(); i++){
+            if(texto.charAt(i) == ';'){
+                return false;
+            }
+        }
+        return true;
+    }
+    
     /**
      * Obtener lista de perosonas
      * @return 
